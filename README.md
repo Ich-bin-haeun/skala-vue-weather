@@ -261,7 +261,7 @@ npm run build
 Vercel을 이용한 정적 웹 배포
 
 ```text
-배포 주소: 배포 후 추가
+배포 주소: https://skala-vue-weather-delta.vercel.app/
 ```
 
 ## 추가로 구현해 보고 싶은 기능
