@@ -27,6 +27,9 @@ const displayTemp = computed(() => {
   <article class="weather-card" @click="emit('select-card', cityItem)">
     <div class="city-header">
       <h2>{{ cityItem.name }}</h2>
+      <small v-if="cityItem.country" class="country">
+        {{ cityItem.country }}
+      </small>
 
       <span class="weather-icon" aria-hidden="true">
         {{ cityItem.icon }}
@@ -127,5 +130,10 @@ const displayTemp = computed(() => {
 
 .detail-button:hover {
   background: #1d4ed8;
+}
+.country {
+  display: block;
+  margin-bottom: 12px;
+  color: #64748b;
 }
 </style>

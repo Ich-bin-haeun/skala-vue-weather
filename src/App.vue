@@ -5,7 +5,7 @@ import UnitToggler from '@/components/exercise/UnitToggler.vue'
 
 <template>
   <header class="app-header">
-    <RouterLink class="logo" to="/"> SKALA Weather </RouterLink>
+    <a class="logo" href="/"> SKALA Weather </a>
 
     <div class="header-actions">
       <nav>
@@ -18,7 +18,11 @@ import UnitToggler from '@/components/exercise/UnitToggler.vue'
     </div>
   </header>
 
-  <RouterView />
+  <RouterView v-slot="{ Component }">
+    <KeepAlive include="WeatherHomeView">
+      <component :is="Component" />
+    </KeepAlive>
+  </RouterView>
 </template>
 
 <style scoped>

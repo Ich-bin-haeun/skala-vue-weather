@@ -1,126 +1,272 @@
 # SKALA Vue Weather
 
-Vue 3 종합실습으로 제작하는 날씨 대시보드 프로젝트입니다.
+Vue 수업에서 배운 내용을 활용해 만든 날씨 대시보드입니다.
 
-## 기술 스택
+처음에는 Mock Data를 보여주는 화면으로 시작했고, 수업 진도에 맞춰 컴포넌트, Router, Pinia, Axios를 하나씩 적용했습니다. 현재는 실제 날씨 조회와 국내외 도시 검색이 가능합니다.
+
+## 사용 기술
 
 - Vue 3
 - Vite
 - Vue Router
 - Pinia
+- Axios
+- Element Plus
 - ESLint
 - Prettier
 
 ## 실행 방법
 
+### 패키지 설치
+
 ```bash
 npm install
-npm run dev
-
-## 실습 진행 기록
-1. 프로젝트 초기 설정
-- Vue 3와 Vite 기반 프로젝트 생성
-- Vue Router와 Pinia 설정
-- ESLint와 Prettier 설정
-- 개발 서버 및 HMR 동작 확인
-2. Weather Mockup
-Vue 기본 문법을 활용하여 도시별 날씨 대시보드 Mockup을 구현했습니다.
-구현 내용
-- ref를 이용한 반응형 날씨 데이터 관리
-- v-for와 :key를 이용한 날씨 카드 반복 출력
-- v-if, v-else를 이용한 온도별 상태 표시
-- :value, @input을 이용한 한글 도시 검색어 입력
-- 카드 클릭 시 선택된 도시 상태 표시
-- click.stop을 이용한 상세보기 이벤트 버블링 방지
-- 반응형 카드 레이아웃 구현
-개인화 내용
-- 제주 날씨 데이터 추가
-- 날씨 상태별 아이콘 추가
-- 도시별 습도와 풍속 정보 추가
-- 모바일 환경을 고려한 반응형 레이아웃 적용
 ```
 
-### 3. Weather Composition API
+### 환경변수 설정
 
-Composition API를 활용하여 도시 검색과 반응형 상태 감시 기능을 구현했습니다.
+프로젝트 최상위 폴더에 `.env.local` 파일 생성
 
-#### 구현 내용
+```env
+VITE_OPENWEATHER_API_KEY=발급받은_API_KEY
+```
 
-- `computed`를 이용한 도시 검색 결과 필터링
-- 검색어가 없을 때 전체 도시 표시
-- 검색 결과가 없을 때 안내 화면 표시
-- `watch`를 이용한 선택 도시 상태 변경 감시
-- `watchEffect`를 이용한 검색어 변경 감시
-- 검색 필터와 온도 필터 동시 적용
+OpenWeather API 키는 [OpenWeather](https://openweathermap.org/)에서 발급할 수 있습니다.
 
-#### 개인화 내용
+### 개발 서버 실행
 
-- `showOnlyHot` 반응형 상태 추가
-- 25℃ 이상인 도시만 표시하는 필터 추가
-- `computed`를 이용한 전체 도시 평균 온도 계산
-- `watch`를 이용한 온도 필터 활성화 상태 추적
+```bash
+npm run dev
+```
 
-### 4. Weather Components
-
-기존 날씨 대시보드의 기능을 유지하면서 역할별 Vue 컴포넌트로 분리했습니다.
-
-#### 컴포넌트 구조
+기본 접속 주소
 
 ```text
-HomeView.vue
-└── WeatherParent.vue
-    ├── BaseDashboardCard.vue
-    ├── SearchBar.vue
-    ├── WeatherSummary.vue
-    └── WeatherCard.vue
+http://localhost:5173
 ```
 
-### 5. Weather Router
+### 프로덕션 빌드
 
-Vue Router를 활용하여 날씨 애플리케이션을 여러 페이지로 구성했습니다.
+```bash
+npm run build
+```
 
-#### Route 구성
+## 주요 기능
 
-| 경로               | 페이지            | 설명                    |
-| ------------------ | ----------------- | ----------------------- |
-| `/`                | WeatherHomeView   | 메인 날씨 대시보드      |
-| `/weather/:cityId` | WeatherDetailView | 도시별 동적 상세 페이지 |
-| `/guide`           | WeatherGuideView  | 날씨 생활 가이드        |
-| `/about`           | WeatherAboutView  | 서비스 소개             |
-| `/:pathMatch(.*)*` | NotFoundView      | 404 페이지              |
+### 날씨 대시보드
 
-#### 구현 내용
+- 서울, 수원, 부산, 제주의 실제 날씨 조회
+- 온도, 날씨 상태, 습도, 풍속 표시
+- 전체 도시 수와 평균 온도 계산
+- 30℃ 이상인 도시 수 표시
+- 날씨 상태에 맞는 아이콘 표시
 
-- `RouterLink`를 이용한 상단 내비게이션
-- `RouterView`를 이용한 페이지 렌더링
-- 동적 경로 매개변수 `:cityId` 적용
-- `useRoute`를 이용한 도시 ID 조회
-- `useRouter`와 `router.push()`를 이용한 상세 페이지 이동
+### 도시 검색과 필터
+
+- 국내외 도시 검색
+- 검색한 도시를 날씨 카드로 추가
+- 도시 이름과 국가명 검색
+- 30℃ 이상인 도시만 보기
+- 전체·한국·해외 지역 필터
+- 검색 결과가 없을 때 안내 화면 표시
+
+### 상세 페이지
+
+- 도시별 실제 상세 날씨 조회
+- 현재 온도와 체감온도 표시
+- 최저·최고 온도 표시
+- 습도와 풍속 표시
+- 검색으로 추가한 해외 도시의 상세 페이지 지원
+- 섭씨·화씨 단위 변경 적용
+
+### 화면 설정
+
+- 섭씨·화씨 단위 전환
+- 상세 기상정보 표시·숨기기
+- 상세 페이지 이동 후 추가 도시 상태 유지
+- 모바일 화면 대응
+- 존재하지 않는 주소의 404 화면 처리
+
+## 사용 API
+
+### OpenWeather Current Weather API
+
+위도와 경도를 기준으로 실제 날씨 조회
+
+- 현재 온도
+- 체감온도
+- 최저·최고 온도
+- 날씨 상태
+- 습도
+- 풍속
+
+### Open-Meteo Geocoding API
+
+사용자가 입력한 도시 이름을 위도와 경도로 변환
+
+```text
+도시 이름 입력
+→ Open-Meteo에서 도시 좌표 검색
+→ OpenWeather에 위도·경도 전달
+→ 실제 날씨 조회
+→ 새로운 날씨 카드 추가
+```
+
+OpenWeather에서 받은 일부 한국어 날씨 설명이 자연스럽지 않아 condition ID를 기준으로 문구를 다시 변환했습니다.
+
+```text
+튼구름 → 흐림
+온흐림 → 매우 흐림
+```
+
+## 페이지 구성
+
+| 경로               | 페이지            | 기능               |
+| ------------------ | ----------------- | ------------------ |
+| `/`                | WeatherHomeView   | 메인 날씨 대시보드 |
+| `/weather/:cityId` | WeatherDetailView | 도시별 상세 날씨   |
+| `/guide`           | WeatherGuideView  | 날씨 생활 가이드   |
+| `/about`           | WeatherAboutView  | 프로젝트 소개      |
+| `/:pathMatch(.*)*` | NotFoundView      | 404 페이지         |
+
+## 컴포넌트 구조
+
+```text
+src/
+├── components/
+│   └── exercise/
+│       ├── BaseDashboardCard.vue
+│       ├── SearchBar.vue
+│       ├── UnitToggler.vue
+│       ├── WeatherCard.vue
+│       ├── WeatherParent.vue
+│       └── WeatherSummary.vue
+├── services/
+│   ├── locationApi.js
+│   └── weatherApi.js
+├── stores/
+│   └── configStore.js
+└── views/
+    ├── WeatherHomeView.vue
+    ├── WeatherDetailView.vue
+    ├── WeatherGuideView.vue
+    ├── WeatherAboutView.vue
+    └── NotFoundView.vue
+```
+
+## 실습 과정
+
+### 1. Weather Mockup
+
+Vue 기본 문법을 이용한 날씨 카드 화면 구현
+
+- `ref`로 날씨 데이터 관리
+- `v-for`와 `:key`로 카드 반복 출력
+- `v-if`, `v-else`로 온도 상태 구분
+- 한글 검색어 입력 처리
+- 카드 선택 이벤트 구현
+- `.stop`으로 상세보기 버튼의 이벤트 버블링 방지
+
+### 2. Composition API
+
+검색과 필터 기능을 Composition API 방식으로 변경
+
+- `computed`로 도시 검색 결과 필터링
+- `computed`로 평균 온도 계산
+- `watch`로 선택 도시 변경 확인
+- `watchEffect`로 검색어 변경 확인
+- 검색 결과가 없을 때 안내 화면 표시
+
+### 3. 컴포넌트 분리
+
+`HomeView.vue`에 있던 기능을 역할별 컴포넌트로 분리
+
+- 검색: `SearchBar.vue`
+- 날씨 카드: `WeatherCard.vue`
+- 요약 정보: `WeatherSummary.vue`
+- 상태와 이벤트: `WeatherParent.vue`
+- 공통 레이아웃: `BaseDashboardCard.vue`
+
+적용 문법
+
+- Props
+- Emits
+- Slot
+- `<style scoped>`
+
+### 4. Vue Router
+
+화면을 페이지 단위로 분리
+
+- `RouterLink`와 `RouterView` 적용
+- 동적 경로 `/weather/:cityId` 구현
+- `router.push()`를 이용한 상세 페이지 이동
 - Route Lazy Loading 적용
 - Catch-all Route와 404 페이지 구현
-- 잘못된 도시 ID 안내 화면 구현
+- `KeepAlive`를 이용한 메인 화면 상태 유지
 
-#### 개인화 내용
+상세보기 기능은 처음에 `window.alert()`로 구현한 뒤 Router 상세 페이지 방식으로 변경했습니다.
 
-- 날씨 상황별 생활 정보를 제공하는 `WeatherGuideView` 추가
-- 날씨 상세 화면에 습도와 풍속 정보 표시
+### 5. Pinia
 
-### 6. Weather Store
+여러 화면에서 함께 사용하는 설정을 Store로 분리
 
-Pinia를 이용하여 애플리케이션 전역에서 온도 단위와 화면 설정을 관리했습니다.
+- 섭씨·화씨 상태 관리
+- 현재 온도 단위 기호 반환
+- 단위 변경 Action 구현
+- 상세정보 표시 여부 관리
+- 상세정보 버튼 문구 Getter 구현
 
-#### 구현 내용
+### 6. Axios와 외부 API
 
-- `configStore`를 이용한 전역 상태 관리
-- 섭씨와 화씨 단위를 저장하는 `unit` state 구현
-- 현재 온도 기호를 반환하는 `unitSymbol` getter 구현
-- 섭씨와 화씨를 전환하는 `toggleUnit` action 구현
-- `UnitToggler.vue`를 상단 내비게이션 옆에 배치
-- 메인 카드, 평균 온도, 상세 페이지에 단위 변환 적용
+Mock Data를 실제 날씨 데이터로 변경
 
-#### 개인화 내용
+- 페이지 진입 시 국내 네 도시의 실제 날씨 요청
+- Open-Meteo를 이용한 국내외 도시 좌표 검색
+- 검색 좌표를 이용한 OpenWeather 요청
+- 검색 도시의 날씨 카드 추가
+- 검색 도시의 상세 페이지 연결
+- 로딩, 오류, 재시도 처리
 
-- 상세 기상정보 표시 여부를 저장하는 `showExtraInfo` state 추가
-- 버튼 문구를 반환하는 `extraInfoLabel` getter 추가
-- 상세정보를 전환하는 `toggleExtraInfo` action 추가
-- 메인 카드와 상세 페이지의 습도·풍속 표시 설정 적용
+### 7. UI Library
+
+Element Plus를 이용한 일부 버튼과 로딩 UI 적용
+
+## 환경변수 관리
+
+실제 API 키가 포함된 파일은 GitHub에 업로드하지 않습니다.
+
+```gitignore
+.env
+.env.local
+.env.*.local
+```
+
+공유용 파일인 `.env.example`에는 필요한 환경변수 이름만 작성합니다.
+
+```env
+VITE_OPENWEATHER_API_KEY=your_openweather_api_key
+```
+
+## 코드 검사
+
+```bash
+npm run format
+npm run lint
+npm run build
+```
+
+## 배포
+
+Vercel을 이용한 정적 웹 배포
+
+```text
+배포 주소: 배포 후 추가
+```
+
+## 추가로 구현해 보고 싶은 기능
+
+- 5일 날씨 예보
+- 한국과 해외 도시 날씨 비교
+- 날씨에 따른 음식 추천
+- 날씨에 따른 여행 준비물 추천
