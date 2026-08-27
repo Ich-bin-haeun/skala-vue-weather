@@ -1,44 +1,41 @@
-# skala-vue-weather
+# SKALA Vue Weather
 
-This template should help get you started developing with Vue 3 in Vite.
+Vue 3 종합실습으로 제작하는 날씨 대시보드 프로젝트입니다.
 
-## Recommended IDE Setup
+## 기술 스택
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- Vue 3
+- Vite
+- Vue Router
+- Pinia
+- ESLint
+- Prettier
 
-## Recommended Browser Setup
+## 실행 방법
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
+```bash
 npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
 npm run dev
-```
 
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
+실습 진행 기록
+1. 프로젝트 초기 설정
+- Vue 3와 Vite 기반 프로젝트 생성
+- Vue Router와 Pinia 설정
+- ESLint와 Prettier 설정
+- 개발 서버 및 HMR 동작 확인
+2. Weather Mockup
+Vue 기본 문법을 활용하여 도시별 날씨 대시보드 Mockup을 구현했습니다.
+구현 내용
+- ref를 이용한 반응형 날씨 데이터 관리
+- v-for와 :key를 이용한 날씨 카드 반복 출력
+- v-if, v-else를 이용한 온도별 상태 표시
+- :value, @input을 이용한 한글 도시 검색어 입력
+- 카드 클릭 시 선택된 도시 상태 표시
+- click.stop을 이용한 상세보기 이벤트 버블링 방지
+- 반응형 카드 레이아웃 구현
+개인화 내용
+- 제주 날씨 데이터 추가
+- 날씨 상태별 아이콘 추가
+- 도시별 습도와 풍속 정보 추가
+- 모바일 환경을 고려한 반응형 레이아웃 적용
 ```
