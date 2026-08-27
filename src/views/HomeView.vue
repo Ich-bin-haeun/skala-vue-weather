@@ -1,7 +1,9 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref, watch, watchEffect } from 'vue'
 
 const searchQuery = ref('')
+
+const showOnlyHot = ref(false)
 
 const selectedCityInfo = ref('카드를 클릭하거나 도시를 검색해 보세요.')
 
@@ -13,6 +15,19 @@ const showDetail = (cityName, status) => {
   window.alert(`${cityName}의 현재 날씨는 [${status}] 상태입니다.`)
 }
 
+watch(selectedCityInfo, (newMessage, oldMessage) => {
+  console.log('[선택 도시 변경]')
+  console.log('이전:', oldMessage)
+  console.log('현재:', newMessage)
+})
+
+watchEffect(() => {
+  console.log(`[도시 검색어 변경] ${searchQuery.value}`)
+})
+
+watch(showOnlyHot, (isEnabled) => {
+  console.log(`[더운 도시 필터] ${isEnabled ? '활성화' : '비활성화'}`)
+})
 const weatherList = ref([
   {
     id: 'city_01',
@@ -51,6 +66,28 @@ const weatherList = ref([
     windSpeed: 7.5,
   },
 ])
+
+const averageTemperature = computed(() => {
+  if (weatherList.value.length === 0) {
+    return 0
+  }
+
+  const totalTemperature = weatherList.value.reduce((total, city) => total + city.temp, 0)
+
+  return Math.round(totalTemperature / weatherList.value.length)
+})
+
+const filteredWeatherList = computed(() => {
+  const normalizedQuery = searchQuery.value.trim().toLowerCase()
+
+  return weatherList.value.filter((city) => {
+    const matchesSearch = city.name.toLowerCase().includes(normalizedQuery)
+
+    const matchesTemperature = !showOnlyHot.value || city.temp >= 25
+
+    return matchesSearch && matchesTemperature
+  })
+})
 </script>
 
 <template>
@@ -59,6 +96,21 @@ const weatherList = ref([
     <p>도시별 현재 날씨를 확인해 보세요.</p>
     <section class="search-section">
       <label for="city-search">도시 검색</label>
+      <div class="custom-controls">
+        <label class="hot-filter">
+          <input
+            type="checkbox"
+            :checked="showOnlyHot"
+            @change="showOnlyHot = $event.target.checked"
+          />
+          25℃ 이상인 도시만 보기
+        </label>
+
+        <p class="average-temperature">
+          전체 도시 평균 온도:
+          <strong>{{ averageTemperature }}℃</strong>
+        </p>
+      </div>
 
       <input
         id="city-search"
@@ -75,7 +127,7 @@ const weatherList = ref([
 
     <section class="weather-list">
       <article
-        v-for="city in weatherList"
+        v-for="city in filteredWeatherList"
         :key="city.id"
         class="weather-card"
         @click="selectCity(city.name)"
@@ -105,6 +157,9 @@ const weatherList = ref([
           상세보기
         </button>
       </article>
+      <p v-if="filteredWeatherList.length === 0" class="empty-message">
+        검색 결과와 일치하는 도시가 없습니다.
+      </p>
     </section>
     <div class="status-bar">
       {{ selectedCityInfo }}
@@ -228,6 +283,42 @@ const weatherList = ref([
   background: #dbeafe;
   text-align: center;
   font-weight: 700;
+}
+
+.empty-message {
+  grid-column: 1 / -1;
+  padding: 48px 24px;
+  border: 1px dashed #93c5fd;
+  border-radius: 16px;
+  color: #475569;
+  background: white;
+  text-align: center;
+}
+
+.custom-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 24px;
+  margin-top: 20px;
+}
+
+.hot-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.hot-filter input {
+  width: 18px;
+  height: 18px;
+}
+
+.average-temperature {
+  margin: 0;
+  color: #475569;
 }
 
 @media (max-width: 700px) {
