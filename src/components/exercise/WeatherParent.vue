@@ -4,6 +4,9 @@ import BaseDashboardCard from './BaseDashboardCard.vue'
 import SearchBar from './SearchBar.vue'
 import WeatherCard from './WeatherCard.vue'
 import WeatherSummary from './WeatherSummary.vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const searchQuery = ref('')
 
@@ -16,7 +19,12 @@ const selectCity = (city) => {
 }
 
 const showDetail = (city) => {
-  window.alert(`${city.name}의 현재 날씨는 [${city.status}] 상태입니다.`)
+  router.push({
+    name: 'weather-detail',
+    params: {
+      cityId: city.id,
+    },
+  })
 }
 
 watch(selectedCityInfo, (newMessage, oldMessage) => {

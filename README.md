@@ -74,3 +74,33 @@ HomeView.vue
     ├── WeatherSummary.vue
     └── WeatherCard.vue
 ```
+
+### 5. Weather Router
+
+Vue Router를 활용하여 날씨 애플리케이션을 여러 페이지로 구성했습니다.
+
+#### Route 구성
+
+| 경로               | 페이지            | 설명                    |
+| ------------------ | ----------------- | ----------------------- |
+| `/`                | WeatherHomeView   | 메인 날씨 대시보드      |
+| `/weather/:cityId` | WeatherDetailView | 도시별 동적 상세 페이지 |
+| `/guide`           | WeatherGuideView  | 날씨 생활 가이드        |
+| `/about`           | WeatherAboutView  | 서비스 소개             |
+| `/:pathMatch(.*)*` | NotFoundView      | 404 페이지              |
+
+#### 구현 내용
+
+- `RouterLink`를 이용한 상단 내비게이션
+- `RouterView`를 이용한 페이지 렌더링
+- 동적 경로 매개변수 `:cityId` 적용
+- `useRoute`를 이용한 도시 ID 조회
+- `useRouter`와 `router.push()`를 이용한 상세 페이지 이동
+- Route Lazy Loading 적용
+- Catch-all Route와 404 페이지 구현
+- 잘못된 도시 ID 안내 화면 구현
+
+#### 개인화 내용
+
+- 날씨 상황별 생활 정보를 제공하는 `WeatherGuideView` 추가
+- 날씨 상세 화면에 습도와 풍속 정보 표시
