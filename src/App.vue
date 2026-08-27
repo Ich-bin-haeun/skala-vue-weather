@@ -1,16 +1,21 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import UnitToggler from '@/components/exercise/UnitToggler.vue'
 </script>
 
 <template>
   <header class="app-header">
-    <RouterLink class="logo" to="/">SKALA Weather</RouterLink>
+    <RouterLink class="logo" to="/"> SKALA Weather </RouterLink>
 
-    <nav>
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/about">About</RouterLink>
-      <RouterLink to="/guide">Guide</RouterLink>
-    </nav>
+    <div class="header-actions">
+      <nav>
+        <RouterLink to="/">Home</RouterLink>
+        <RouterLink to="/guide">Guide</RouterLink>
+        <RouterLink to="/about">About</RouterLink>
+      </nav>
+
+      <UnitToggler />
+    </div>
   </header>
 
   <RouterView />
@@ -33,6 +38,12 @@ import { RouterLink, RouterView } from 'vue-router'
   text-decoration: none;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
 nav {
   display: flex;
   gap: 20px;
@@ -46,5 +57,24 @@ nav a {
 nav a.router-link-exact-active {
   color: #2563eb;
   font-weight: 700;
+}
+
+@media (max-width: 700px) {
+  .app-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    padding: 16px 20px;
+  }
+
+  .header-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  nav {
+    flex-wrap: wrap;
+  }
 }
 </style>

@@ -1,5 +1,8 @@
 <script setup>
-defineProps({
+import { computed } from 'vue'
+import { useConfigStore } from '@/stores/configStore'
+
+const props = defineProps({
   cityItem: {
     type: Object,
     required: true,
@@ -7,6 +10,17 @@ defineProps({
 })
 
 const emit = defineEmits(['select-card', 'click-detail'])
+const configStore = useConfigStore()
+
+const displayTemp = computed(() => {
+  const rawTemp = props.cityItem.temp
+
+  if (configStore.unit === 'fahrenheit') {
+    return Math.round((rawTemp * 9) / 5 + 32)
+  }
+
+  return rawTemp
+})
 </script>
 
 <template>
@@ -19,11 +33,11 @@ const emit = defineEmits(['select-card', 'click-detail'])
       </span>
     </div>
 
-    <strong class="temperature"> {{ cityItem.temp }}℃ </strong>
+    <strong class="temperature"> {{ displayTemp }}{{ configStore.unitSymbol }} </strong>
 
     <p>{{ cityItem.status }}</p>
 
-    <div class="weather-metrics">
+    <div v-if="configStore.showExtraInfo" class="weather-metrics">
       <span>💧 습도 {{ cityItem.humidity }}%</span>
       <span>💨 풍속 {{ cityItem.windSpeed }}m/s</span>
     </div>

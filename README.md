@@ -104,3 +104,23 @@ Vue Router를 활용하여 날씨 애플리케이션을 여러 페이지로 구�
 
 - 날씨 상황별 생활 정보를 제공하는 `WeatherGuideView` 추가
 - 날씨 상세 화면에 습도와 풍속 정보 표시
+
+### 6. Weather Store
+
+Pinia를 이용하여 애플리케이션 전역에서 온도 단위와 화면 설정을 관리했습니다.
+
+#### 구현 내용
+
+- `configStore`를 이용한 전역 상태 관리
+- 섭씨와 화씨 단위를 저장하는 `unit` state 구현
+- 현재 온도 기호를 반환하는 `unitSymbol` getter 구현
+- 섭씨와 화씨를 전환하는 `toggleUnit` action 구현
+- `UnitToggler.vue`를 상단 내비게이션 옆에 배치
+- 메인 카드, 평균 온도, 상세 페이지에 단위 변환 적용
+
+#### 개인화 내용
+
+- 상세 기상정보 표시 여부를 저장하는 `showExtraInfo` state 추가
+- 버튼 문구를 반환하는 `extraInfoLabel` getter 추가
+- 상세정보를 전환하는 `toggleExtraInfo` action 추가
+- 메인 카드와 상세 페이지의 습도·풍속 표시 설정 적용

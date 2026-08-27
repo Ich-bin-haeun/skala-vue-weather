@@ -1,9 +1,25 @@
 <script setup>
-import { onMounted, ref } from 'vue'
-import { RouterLink, useRoute } from 'vue-router'
+import { computed, onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { useConfigStore } from '@/stores/configStore'
 
 const route = useRoute()
 const selectedCity = ref(null)
+const configStore = useConfigStore()
+
+const displayTemp = computed(() => {
+  if (!selectedCity.value) {
+    return 0
+  }
+
+  const rawTemp = selectedCity.value.temp
+
+  if (configStore.unit === 'fahrenheit') {
+    return Math.round((rawTemp * 9) / 5 + 32)
+  }
+
+  return rawTemp
+})
 
 const weatherList = [
   {
@@ -59,11 +75,13 @@ onMounted(() => {
       <p class="eyebrow">WEATHER DETAIL</p>
       <h1>{{ selectedCity.name }}</h1>
 
-      <strong class="temperature"> {{ selectedCity.temp }}℃ </strong>
+      <strong class="temperature"> {{ displayTemp }}℃ </strong>
 
-      <p class="status">{{ selectedCity.status }}</p>
+      <p class="status">
+        {{ selectedCity.status }}
+      </p>
 
-      <dl class="weather-information">
+      <dl v-if="configStore.showExtraInfo" class="weather-information">
         <div>
           <dt>습도</dt>
           <dd>{{ selectedCity.humidity }}%</dd>

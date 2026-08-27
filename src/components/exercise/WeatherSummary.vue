@@ -12,6 +12,10 @@ defineProps({
     type: Number,
     required: true,
   },
+  unitSymbol: {
+    type: String,
+    required: true,
+  },
 })
 </script>
 
@@ -24,7 +28,7 @@ defineProps({
 
     <div class="summary-item">
       <span>평균 온도</span>
-      <strong>{{ averageTemperature }}℃</strong>
+      <strong> {{ averageTemperature }}{{ unitSymbol }} </strong>
     </div>
 
     <div class="summary-item">

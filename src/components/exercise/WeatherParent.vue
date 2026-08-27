@@ -5,8 +5,10 @@ import SearchBar from './SearchBar.vue'
 import WeatherCard from './WeatherCard.vue'
 import WeatherSummary from './WeatherSummary.vue'
 import { useRouter } from 'vue-router'
+import { useConfigStore } from '@/stores/configStore'
 
 const router = useRouter()
+const configStore = useConfigStore()
 
 const searchQuery = ref('')
 
@@ -89,6 +91,14 @@ const averageTemperature = computed(() => {
   return Math.round(totalTemperature / weatherList.value.length)
 })
 
+const displayAverageTemperature = computed(() => {
+  if (configStore.unit === 'fahrenheit') {
+    return Math.round((averageTemperature.value * 9) / 5 + 32)
+  }
+
+  return averageTemperature.value
+})
+
 const hotCityCount = computed(() => {
   return weatherList.value.filter((city) => city.temp >= 25).length
 })
@@ -108,54 +118,47 @@ const filteredWeatherList = computed(() => {
 
 <template>
   <main class="weather-page">
-    <BaseDashboardCard title="오늘의 날씨">
-      <p>도시별 현재 날씨를 확인해 보세요.</p>
-    </BaseDashboardCard>
+    <BaseDashboardCard title="오늘의 날씨" description="도시별 현재 날씨를 확인해 보세요.">
+      <section class="search-section">
+        <SearchBar :query="searchQuery" @update-query="searchQuery = $event" />
 
-    <section class="search-section">
-      <SearchBar :query="searchQuery" @update-query="searchQuery = $event" />
-      <div class="custom-controls">
-        <label class="hot-filter">
-          <input
-            type="checkbox"
-            :checked="showOnlyHot"
-            @change="showOnlyHot = $event.target.checked"
-          />
-          25℃ 이상인 도시만 보기
-        </label>
+        <div class="custom-controls">
+          <label class="hot-filter">
+            <input
+              type="checkbox"
+              :checked="showOnlyHot"
+              @change="showOnlyHot = $event.target.checked"
+            />
+            25℃ 이상인 도시만 보기
+          </label>
+        </div>
+      </section>
 
-        <p class="average-temperature">
-          전체 도시 평균 온도:
-          <strong>{{ averageTemperature }}℃</strong>
-        </p>
-      </div>
-
-      <p v-if="searchQuery" class="search-result">
-        입력한 도시: <strong>{{ searchQuery }}</strong>
-      </p>
-    </section>
-
-    <WeatherSummary
-      :total-cities="weatherList.length"
-      :average-temperature="averageTemperature"
-      :hot-city-count="hotCityCount"
-    />
-
-    <section class="weather-list">
-      <WeatherCard
-        v-for="city in filteredWeatherList"
-        :key="city.id"
-        :city-item="city"
-        @select-card="selectCity"
-        @click-detail="showDetail"
+      <WeatherSummary
+        :total-cities="weatherList.length"
+        :average-temperature="displayAverageTemperature"
+        :unit-symbol="configStore.unitSymbol"
+        :hot-city-count="hotCityCount"
       />
-      <p v-if="filteredWeatherList.length === 0" class="empty-message">
-        검색 결과와 일치하는 도시가 없습니다.
-      </p>
-    </section>
-    <div class="status-bar">
-      {{ selectedCityInfo }}
-    </div>
+
+      <section class="weather-list">
+        <WeatherCard
+          v-for="city in filteredWeatherList"
+          :key="city.id"
+          :city-item="city"
+          @select-card="selectCity"
+          @click-detail="showDetail"
+        />
+
+        <p v-if="filteredWeatherList.length === 0" class="empty-message">
+          검색 결과와 일치하는 도시가 없습니다.
+        </p>
+      </section>
+
+      <div class="status-bar">
+        {{ selectedCityInfo }}
+      </div>
+    </BaseDashboardCard>
   </main>
 </template>
 
