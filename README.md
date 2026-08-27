@@ -17,7 +17,7 @@ Vue 3 종합실습으로 제작하는 날씨 대시보드 프로젝트입니다.
 npm install
 npm run dev
 
-실습 진행 기록
+## 실습 진행 기록
 1. 프로젝트 초기 설정
 - Vue 3와 Vite 기반 프로젝트 생성
 - Vue Router와 Pinia 설정
@@ -59,3 +59,18 @@ Composition API를 활용하여 도시 검색과 반응형 상태 감시 기능�
 - 25℃ 이상인 도시만 표시하는 필터 추가
 - `computed`를 이용한 전체 도시 평균 온도 계산
 - `watch`를 이용한 온도 필터 활성화 상태 추적
+
+### 4. Weather Components
+
+기존 날씨 대시보드의 기능을 유지하면서 역할별 Vue 컴포넌트로 분리했습니다.
+
+#### 컴포넌트 구조
+
+```text
+HomeView.vue
+└── WeatherParent.vue
+    ├── BaseDashboardCard.vue
+    ├── SearchBar.vue
+    ├── WeatherSummary.vue
+    └── WeatherCard.vue
+```
