@@ -45,9 +45,9 @@ const displayTemp = computed(() => {
       <span>💨 풍속 {{ cityItem.windSpeed }}m/s</span>
     </div>
 
-    <p v-if="cityItem.temp >= 25" class="temperature-label hot">🔥 더움 (25도 이상)</p>
+    <p v-if="cityItem.temp >= 25" class="temperature-label hot">🔥 더움 (30도 이상)</p>
 
-    <p v-else class="temperature-label cool">❄️ 선선함 (25도 미만)</p>
+    <p v-else class="temperature-label cool">🌤️ 보통 (30℃ 미만)</p>
 
     <button type="button" class="detail-button" @click.stop="emit('click-detail', cityItem)">
       상세보기
